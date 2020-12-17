@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 const popupActiveSVG = {
@@ -8,6 +8,21 @@ const popupActiveSVG = {
 const Sort = ({ sortList }) => {
 	const [visiblePopup, setVisiblePopup] = useState(false);
 	const [activeItem, setActiveItem] = useState(0);
+	const sortEl = useRef(null);
+
+	useEffect(() => {
+		document.body.addEventListener('click', handleOutsideClick);
+	});
+
+	/**
+	 * Handle click outside sort popup to close it
+	 * @param {object} ev 
+	 */
+	const handleOutsideClick = (ev) => {
+		if (!sortEl.current.contains(ev.target)) {
+			setVisiblePopup(false);
+		}
+	};
 
 	/**
 	 * Handle sort popup
@@ -26,7 +41,7 @@ const Sort = ({ sortList }) => {
 	};
 
 	return (
-		<div className="sort">
+		<div ref={sortEl} className="sort">
 			<div className="sort__label">
 				<svg
 					width="10"
