@@ -1,6 +1,6 @@
 import logoSvg from '../assets/img/pizza-logo.svg';
 
-export default () => (
+const Header = () => (
 	<header className="header">
 		<div className="container">
 			<div className="header__logo">
@@ -49,3 +49,5 @@ export default () => (
 		</div>
 	</header>
 );
+
+export default Header;
