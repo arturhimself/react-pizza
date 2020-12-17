@@ -16,51 +16,14 @@ const App = () => {
     'алфавиту'
   ];
 
-  // State
-  const [activeCategory, setActiveCategory] = useState(null);
-  const [activeSortPopup, setActiveSortPopup] = useState(false);
-  const [activeSortIndex, setActiveSortIndex] = useState(0);
-
-  /**
-   * Handle category. Change state
-   * @param {*} index 
-   */
-  const handleCategory = (index) => {
-    setActiveCategory(index);
-  };
-
-  /**
-   * Handle sort popup. Change state
-   */
-  const handleSortPopup = () => setActiveSortPopup(!activeSortPopup);
-
-  /**
-   * Handle sort item on click. Change state
-   * @param {*} index 
-   */
-  const handleSortItem = (index) => {
-    setActiveSortIndex(index);
-    setActiveSortPopup(!activeSortPopup);
-  };
-
   return (
     <div className="wrapper">
       <Header />
       <div className="content">
         <div className="container">
           <div className="content__top">
-            <Categories
-              activeCategory={activeCategory}
-              categories={categories} 
-              onCategoryClick={handleCategory}
-            />
-            <Sort
-              activeSortPopup={activeSortPopup} 
-              openSortPopup={handleSortPopup}
-              sortList={sortList}
-              activeSortIndex={activeSortIndex}
-              selectSortItem={handleSortItem}
-            />
+            <Categories categories={categories} />
+            <Sort sortList={sortList} />
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
