@@ -12,6 +12,9 @@ const Sort = ({ sortList }) => {
 
 	useEffect(() => {
 		document.body.addEventListener('click', handleOutsideClick);
+		return () => {
+			document.body.removeEventListener('click', handleOutsideClick);
+		};
 	});
 
 	/**
@@ -19,7 +22,7 @@ const Sort = ({ sortList }) => {
 	 * @param {object} ev 
 	 */
 	const handleOutsideClick = (ev) => {
-		if (!sortEl.current.contains(ev.target)) {
+		if (!sortEl.current?.contains(ev.target)) {
 			setVisiblePopup(false);
 		}
 	};
