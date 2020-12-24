@@ -6,7 +6,7 @@ const Categories = ({ categories }) => {
 
 	/**
    * Handle category
-   * @param {number} index 
+   * @param {number} index index of category in list
    */
   const handleCategory = (index) => {
     setActiveCategory(index);
