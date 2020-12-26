@@ -11,9 +11,9 @@ const Home = ({ products }) => {
     'Закрытые',
   ];
   const sortList = [
-    'популярности',
-    'цене',
-    'алфавиту'
+    { name: 'популярности', type: 'popular' },
+    { name: 'цене', type: 'price' },
+    { name: 'алфавиту', type: 'alphabet' },
   ];
 
 	return (

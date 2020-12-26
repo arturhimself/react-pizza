@@ -7,7 +7,7 @@ const popupActiveSVG = {
 
 const Sort = ({ sortList }) => {
 	const [visiblePopup, setVisiblePopup] = useState(false);
-	const [activeItem, setActiveItem] = useState(0);
+	const [activeItem, setActiveItem] = useState(sortList[0]);
 	const sortEl = useRef(null);
 
 	useEffect(() => {
@@ -26,14 +26,9 @@ const Sort = ({ sortList }) => {
 			setVisiblePopup(false);
 		}
 	};
-
-	/**
-	 * Handle sort popup
-	 */
 	const handleSortPopup = () => {
 		setVisiblePopup(!visiblePopup);
 	};
-
 	/**
 	 * Handle sort item on click
 	 * @param {number} index
@@ -70,9 +65,9 @@ const Sort = ({ sortList }) => {
 								<li
 									onClick={() => handleSortItem(index)}
 									className={activeItem === index ? 'active' : ''}
-									key={`${sortItem}_${index}`}
+									key={`${sortItem.name}_${index}`}
 								>
-									{sortItem}
+									{sortItem.name}
 								</li>
 							))}
 						</ul>
@@ -84,7 +79,7 @@ const Sort = ({ sortList }) => {
 };
 
 Sort.propTypes = {
-	sortList: PropTypes.arrayOf(PropTypes.string),
+	sortList: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default Sort;
