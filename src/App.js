@@ -9,9 +9,12 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // TODO: move to redux, add redux-thunk
+    // TODO: watch filtration and sorting, set parametres in URL from redux
+    // TODO: add fake loading
     const fetchData = async () => {
-      const response = await fetch('http://localhost:3000/db.json');
-      const { pizzas } = await response.json();
+      const response = await fetch('http://localhost:3004/pizzas');
+      const pizzas = await response.json();
       dispatch(setProducts(pizzas));
     };
     fetchData();

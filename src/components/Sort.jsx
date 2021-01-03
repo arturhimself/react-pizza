@@ -5,7 +5,7 @@ const popupActiveSVG = {
 	transform: 'rotate(180deg)',
 };
 
-const Sort = ({ sortList }) => {
+const Sort = React.memo(({ sortList }) => {
 	const [visiblePopup, setVisiblePopup] = useState(false);
 	const [activeItem, setActiveItem] = useState(sortList[0]['type']);
 	const sortEl = useRef(null);
@@ -15,7 +15,7 @@ const Sort = ({ sortList }) => {
 		return () => {
 			document.body.removeEventListener('click', handleOutsideClick);
 		};
-	});
+	}, []);
 
 	/**
 	 * Handle click outside sort popup to close it
@@ -76,7 +76,7 @@ const Sort = ({ sortList }) => {
 			)}
 		</div>
 	);
-};
+});
 
 Sort.propTypes = {
 	sortList: PropTypes.arrayOf(PropTypes.object),
