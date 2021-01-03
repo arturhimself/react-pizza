@@ -1,25 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setProducts } from './redux/actions/products';
 import { Header } from './components';
 import { Home, Cart } from './pages';
 
 const App = () => {
-  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch('/db.json')
-      .then((response) => {
-        if (!response.ok) throw Error(response.statusText);
-        return response.json();
-      })
-      .then((json) => setProducts(json.pizzas));
-  });
+    const fetchData = async () => {
+      const response = await fetch('http://localhost:3000/db.json');
+      const { pizzas } = await response.json();
+      dispatch(setProducts(pizzas));
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className="wrapper">
       <Header />
       <div className="content">
-        <Route path="/" render={() => <Home products={products} />} exact />
+        <Route path="/" component={Home} exact />
         <Route path="/cart" component={Cart} exact />
       </div>
     </div>

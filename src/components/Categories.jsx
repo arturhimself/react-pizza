@@ -1,16 +1,16 @@
-import { React, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const Categories = ({ categories }) => {
+const Categories = React.memo(({ categories, onClickItem }) => {
 	const [activeCategory, setActiveCategory] = useState(null);
-
 	/**
    * Handle category
    * @param {number} index index of category in list
    */
   const handleCategory = (index) => {
-    setActiveCategory(index);
-  };
+		setActiveCategory(index);
+		onClickItem(index);
+	};
 
 	return (
 		<div className="categories">
@@ -35,7 +35,7 @@ const Categories = ({ categories }) => {
 			</ul>
 		</div>
 	);
-};
+});
 
 Categories.propTypes = {
 	categories: PropTypes.arrayOf(PropTypes.string),

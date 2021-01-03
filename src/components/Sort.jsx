@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 const popupActiveSVG = {
@@ -7,7 +7,7 @@ const popupActiveSVG = {
 
 const Sort = ({ sortList }) => {
 	const [visiblePopup, setVisiblePopup] = useState(false);
-	const [activeItem, setActiveItem] = useState(sortList[0]);
+	const [activeItem, setActiveItem] = useState(sortList[0]['type']);
 	const sortEl = useRef(null);
 
 	useEffect(() => {
@@ -31,10 +31,10 @@ const Sort = ({ sortList }) => {
 	};
 	/**
 	 * Handle sort item on click
-	 * @param {number} index
+	 * @param {string} type type of sort
 	 */
-	const handleSortItem = (index) => {
-		setActiveItem(index);
+	const handleSortItem = (type) => {
+		setActiveItem(type);
 		setVisiblePopup(!visiblePopup);
 	};
 
@@ -55,19 +55,19 @@ const Sort = ({ sortList }) => {
 					/>
 				</svg>
 				<b>Сортировка по:</b>
-				<span onClick={handleSortPopup}>{sortList[activeItem]}</span>
+				<span onClick={handleSortPopup}>{sortList.find(({ type }) => type === activeItem).name}</span>
 			</div>
 			{visiblePopup && (
 				<div className="sort__popup">
 					{sortList && (
 						<ul>
-							{sortList.map((sortItem, index) => (
+							{sortList.map(({ name, type }, index) => (
 								<li
-									onClick={() => handleSortItem(index)}
-									className={activeItem === index ? 'active' : ''}
-									key={`${sortItem.name}_${index}`}
+									onClick={() => handleSortItem(type)}
+									className={activeItem === type ? 'active' : ''}
+									key={`${type}_${index}`}
 								>
-									{sortItem.name}
+									{name}
 								</li>
 							))}
 						</ul>
