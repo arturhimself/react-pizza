@@ -15,6 +15,11 @@ body {
   margin: 50px auto;
   border-radius: 10px;
   max-width: 1400px;
+
+  @media (max-width: 680px) {
+    width: 90%;
+    margin: 20px auto;
+  }
 }
 
 .content {
@@ -22,18 +27,26 @@ body {
 
   &__title {
     margin: 35px 0;
+
+    @media (max-width: 680px) {
+      text-align: center;
+    }
   }
 
   &__items {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: flex-start;
   }
 
   &__top {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @media (max-width: 1240px) {
+      flex-wrap: wrap;
+    }
   }
 }
 

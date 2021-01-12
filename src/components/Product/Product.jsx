@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-const Product = ({ name, imageUrl, price, types, sizes }) => {
+const Product = ({ 
+	name, 
+	imageUrl, 
+	price, 
+	types, 
+	sizes,
+}) => {
 	const typesItems = ['Тонкое', 'Традиционное'];
 	const [activeType, setActiveType] = useState(types[0]);
 	const [activeSize, setActiveSize] = useState(0);
+
 	/**
 	 * @param {number} index index of type
 	 */
@@ -72,6 +80,14 @@ const Product = ({ name, imageUrl, price, types, sizes }) => {
 			</div>
 		</div>
 	);
+};
+
+Product.propTypes = {
+	name: PropTypes.string.isRequired,
+	imageUrl: PropTypes.string.isRequired,
+	price: PropTypes.number.isRequired,
+	types: PropTypes.arrayOf(PropTypes.number).isRequired,
+	sizes: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 
 export default Product;

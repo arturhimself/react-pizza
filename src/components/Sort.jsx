@@ -5,9 +5,12 @@ const popupActiveSVG = {
 	transform: 'rotate(180deg)',
 };
 
-const Sort = React.memo(({ sortList }) => {
+const Sort = React.memo(({ 
+	sortList, 
+	activeSort,
+	onClickSort,
+}) => {
 	const [visiblePopup, setVisiblePopup] = useState(false);
-	const [activeItem, setActiveItem] = useState(sortList[0]['type']);
 	const sortEl = useRef(null);
 
 	useEffect(() => {
@@ -34,7 +37,7 @@ const Sort = React.memo(({ sortList }) => {
 	 * @param {string} type type of sort
 	 */
 	const handleSortItem = (type) => {
-		setActiveItem(type);
+		onClickSort(type);
 		setVisiblePopup(!visiblePopup);
 	};
 
@@ -55,19 +58,19 @@ const Sort = React.memo(({ sortList }) => {
 					/>
 				</svg>
 				<b>Сортировка по:</b>
-				<span onClick={handleSortPopup}>{sortList.find(({ type }) => type === activeItem).name}</span>
+				<span onClick={handleSortPopup}>{sortList.find(({ type }) => type === activeSort.type).name}</span>
 			</div>
 			{visiblePopup && (
 				<div className="sort__popup">
 					{sortList && (
 						<ul>
-							{sortList.map(({ name, type }, index) => (
+							{sortList.map((sortItem, index) => (
 								<li
-									onClick={() => handleSortItem(type)}
-									className={activeItem === type ? 'active' : ''}
-									key={`${type}_${index}`}
+									onClick={() => handleSortItem(sortItem)}
+									className={activeSort.type === sortItem.type ? 'active' : ''}
+									key={`${sortItem.type}_${index}`}
 								>
-									{name}
+									{sortItem.name}
 								</li>
 							))}
 						</ul>
@@ -80,6 +83,8 @@ const Sort = React.memo(({ sortList }) => {
 
 Sort.propTypes = {
 	sortList: PropTypes.arrayOf(PropTypes.object),
+	activeSort: PropTypes.object.isRequired,
+	onClickSort: PropTypes.func.isRequired,
 };
 
 export default Sort;

@@ -1,16 +1,28 @@
 @import 'variables';
 
 .pizza-block {
-  width: 280px;
+  padding: 0 10px;
+  width: 25%;
   text-align: center;
-  margin-bottom: 65px;
 
-  &:not(:nth-of-type(4n)) {
-    margin-right: 35px;
+  &:not(:last-child) {
+    margin-bottom: 65px;
+  }
+
+  @media (max-width: 1170px) {
+    width: 33%;
+  }
+
+  @media (max-width: 920px) {
+    width: 50%;
+  }
+
+  @media (max-width: 680px) {
+    width: 100%;
   }
 
   &__image {
-    width: 260px;
+    width: 100%;
   }
 
   &__title {
@@ -42,6 +54,11 @@
         font-weight: 600;
         font-size: 14px;
         @include noselect();
+
+        @media (max-width: 350px) {
+          font-size: 12px;
+        }
+
         &.active {
           background: #ffffff;
           box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
@@ -68,5 +85,9 @@
     font-size: 22px;
     line-height: 27px;
     letter-spacing: 0.015em;
+
+    @media (max-width: 350px) {
+      font-size: 18px;
+    }
   }
 }

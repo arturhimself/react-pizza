@@ -1,34 +1,85 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Sort, Categories, ProductList } from '../components';
-import { setCategory } from '../redux/actions/filters';
+import { fetchProducts } from '../redux/actions/products';
+import { setCategory, setSortBy } from '../redux/actions/filters';
+import { Sort, Categories, Product, LoadingBlock } from '../components';
 
-const categories = ['Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
-
+const categories = [
+	'Мясные', 
+	'Вегетарианская', 
+	'Гриль', 
+	'Острые', 
+	'Закрытые'
+];
 const sortList = [
-	{ name: 'популярности', type: 'popular' },
-	{ name: 'цене', type: 'price' },
-	{ name: 'алфавиту', type: 'alphabet' },
+	{ 
+		name: 'популярности', 
+		type: 'rating', 
+		order: 'desc', 
+	},
+	{ 
+		name: 'цене', 
+		type: 'price', 
+		order: 'desc', 
+	},
+	{ 
+		name: 'алфавиту', 
+		type: 'name', 
+		order: 'asc', 
+	},
 ];
 
 const Home = () => {
 	const dispatch = useDispatch();
 	const products = useSelector(({ products }) => products.items);
+	const isLoaded = useSelector(({ products }) => products.isLoaded);
+	const { category, sortBy } = useSelector(({ filters }) => filters);
+
+  useEffect(() => {
+		dispatch(fetchProducts(sortBy, category));
+  }, [category, sortBy]);
 
 	const onSelectCategory = useCallback((index) => {
 		dispatch(setCategory(index));
 	}, []);
 
+	const setActiveSort = useCallback((sortItem) => {
+		dispatch(setSortBy(sortItem));
+	});
+
 	return (
 		<div className="container">
 			<div className="content__top">
-        <Categories 
-          categories={categories}
-          onClickItem={onSelectCategory}
+				<Categories 
+					activeCategory={category}
+          categories={categories} 
+          onClickCategory={onSelectCategory}
         />
-				<Sort sortList={sortList} />
+				<Sort 
+					sortList={sortList} 
+					activeSort={sortBy}
+					onClickSort={setActiveSort}
+				/>
 			</div>
-			<ProductList products={products} />
+			<h2 className="content__title">{category === null ? 'Все пиццы' : categories[category]}</h2>
+			<div className="content__items">
+				{
+					isLoaded ?
+					products.map((product) => (
+						<Product 
+							key={product.id} 
+							name={product.name}
+							imageUrl={product.imageUrl}
+							types={product.types}
+							sizes={product.sizes}
+							price={product.price}
+							rating={product.rating}
+							category={product.category}
+						/>
+					)) : 
+					Array(12).fill(0).map((_, index) => <LoadingBlock key={index} />)
+				}
+			</div>
 		</div>
 	);
 };
