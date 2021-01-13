@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { Button } from '..';
 
 const Product = ({ 
+	id,
 	name, 
 	imageUrl, 
 	price, 
 	types, 
 	sizes,
+	onClickAddProduct,
+	cartItems,
 }) => {
 	const typesItems = ['Тонкое', 'Традиционное'];
 	const [activeType, setActiveType] = useState(types[0]);
 	const [activeSize, setActiveSize] = useState(0);
-
 	/**
 	 * @param {number} index index of type
 	 */
@@ -24,6 +27,16 @@ const Product = ({
 	 */
 	const handleSelectSize = (index) => {
 		setActiveSize(index);
+	};
+	const handleAddProduct = () => {
+		onClickAddProduct({ 
+			id,
+			name,
+			price,
+			imageUrl,
+			size: sizes[activeSize],
+			type: typesItems[activeType],
+		});
 	};
 
 	return (
@@ -61,7 +74,7 @@ const Product = ({
 			</div>
 			<div className="pizza-block__bottom">
 				<div className="pizza-block__price">от {price} ₽</div>
-				<div className="button button--outline button--add">
+				<Button onClick={handleAddProduct} className="button--add" outline>
 					<svg
 						width="12"
 						height="12"
@@ -75,8 +88,8 @@ const Product = ({
 						/>
 					</svg>
 					<span>Добавить</span>
-					<i>2</i>
-				</div>
+					{cartItems && <i>{cartItems}</i>}
+				</Button>
 			</div>
 		</div>
 	);
@@ -88,6 +101,8 @@ Product.propTypes = {
 	price: PropTypes.number.isRequired,
 	types: PropTypes.arrayOf(PropTypes.number).isRequired,
 	sizes: PropTypes.arrayOf(PropTypes.number).isRequired,
+	onClickAddProduct: PropTypes.func.isRequired,
+	cartItems: PropTypes.number,
 };
 
 export default Product;

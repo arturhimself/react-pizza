@@ -2,7 +2,13 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../redux/actions/products';
 import { setCategory, setSortBy } from '../redux/actions/filters';
-import { Sort, Categories, Product, LoadingBlock } from '../components';
+import { addProductToCart } from '../redux/actions/cart';
+import { 
+	Sort, 
+	Categories, 
+	Product, 
+	LoadingBlock 
+} from '../components';
 
 const categories = [
 	'Мясные', 
@@ -33,19 +39,28 @@ const Home = () => {
 	const dispatch = useDispatch();
 	const products = useSelector(({ products }) => products.items);
 	const isLoaded = useSelector(({ products }) => products.isLoaded);
+	const cartItems = useSelector(({ cart }) => cart.items);
 	const { category, sortBy } = useSelector(({ filters }) => filters);
 
   useEffect(() => {
 		dispatch(fetchProducts(sortBy, category));
-  }, [category, sortBy]);
-
+	}, [category, sortBy]);
+	
 	const onSelectCategory = useCallback((index) => {
 		dispatch(setCategory(index));
 	}, []);
 
 	const setActiveSort = useCallback((sortItem) => {
 		dispatch(setSortBy(sortItem));
-	});
+	}, []);
+
+	/**
+	 * Add product to cart
+	 * @param {Object} product 
+	 */
+	const handleAddProductToCart = (product) => {
+		dispatch(addProductToCart(product));
+	};
 
 	return (
 		<div className="container">
@@ -67,14 +82,10 @@ const Home = () => {
 					isLoaded ?
 					products.map((product) => (
 						<Product 
-							key={product.id} 
-							name={product.name}
-							imageUrl={product.imageUrl}
-							types={product.types}
-							sizes={product.sizes}
-							price={product.price}
-							rating={product.rating}
-							category={product.category}
+							key={product.id}
+							onClickAddProduct={handleAddProductToCart}
+							{...product}
+							cartItems={cartItems[product.id] && cartItems[product.id].length}
 						/>
 					)) : 
 					Array(12).fill(0).map((_, index) => <LoadingBlock key={index} />)
