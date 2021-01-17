@@ -85,7 +85,7 @@ const Home = () => {
 							key={product.id}
 							onClickAddProduct={handleAddProductToCart}
 							{...product}
-							cartItems={cartItems[product.id] && cartItems[product.id].length}
+							cartItems={cartItems[product.id] && cartItems[product.id].items.length}
 						/>
 					)) : 
 					Array(12).fill(0).map((_, index) => <LoadingBlock key={index} />)

@@ -4,3 +4,4 @@ export { default as Categories } from './Categories';
 export { default as Sort } from './Sort';
 export { default as Product } from './Product/Product';
 export { default as LoadingBlock } from './Product/LoadingBlock';
+export { default as CartItem } from './CartItem';
